@@ -5,8 +5,12 @@ node {
         checkout scm
     }
 
+    stage('Build Jar') {
+            sh 'mvn clean package'
+        }
+
     stage('Build image') {
-        app = docker.build("spring1/spring")
+        app = docker.build("spring")
     }
 
     stage('Test image') {
