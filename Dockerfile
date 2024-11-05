@@ -1,22 +1,19 @@
-#Basis-Image mit Java 17
+# Verwende ein Basis-Image mit Java 17
 FROM openjdk:17-jdk-slim
 
-#Arbeitsverzeichnis im Container
-#alle nachfolgenden Befehle in der Dockerfile (z. B. COPY, RUN, CMD) werden relativ zu diesem Verzeichnis ausgeführt.
+# Erstelle ein Verzeichnis für die App
 WORKDIR /app
 
-#JAR-Datei ins Arbeitsverzeichnis Kopieren
-COPY target/spring_boot_17-0.0.1-SNAPSHOT.jar my-app.jar
+# Kopiere die Abhängigkeiten und die kompilierten Dateien in den Container
+COPY target/spring_boot_17-0.0.1-SNAPSHOT.jar app.jar
 
-#Datenbankverbindung
-ENV DB_HOST=host.docker.internal
-ENV DB_PORT=5432
-ENV DB_USER=wael
-ENV DB_PASSWORD=wael
-ENV DB_NAME=student
+# Setze Umgebungsvariablen für PostgreSQL, falls nötig
+ENV SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/student
+ENV SPRING_DATASOURCE_USERNAME=wael
+ENV SPRING_DATASOURCE_PASSWORD=wael
 
-#Zum Ausführen der JAR-Datei
-ENTRYPOINT ["java", "-jar", "my-app.jar"]
-
-#Den Standardport Exponieren
+# Exponiere Port 8081 für die Anwendung
 EXPOSE 8081
+
+# Starte die Anwendung
+ENTRYPOINT ["java", "-jar", "app.jar"]
