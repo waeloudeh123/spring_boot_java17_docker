@@ -6,8 +6,8 @@ node {
     }
 
     stage('Build Jar') {
-            sh 'mvn clean package'
-        }
+        bat 'mvn clean install'
+    }
 
     stage('Build image') {
         app = docker.build("spring")
@@ -15,7 +15,7 @@ node {
 
     stage('Test image') {
         app.inside {
-            sh 'echo "Tests passed"'
+            bat 'echo "Tests passed"'
         }
     }
 
