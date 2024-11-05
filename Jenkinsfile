@@ -2,20 +2,16 @@ node {
     def app
 
     stage('clone repository') {
-    checkout scm
-
+        checkout scm
     }
 
     stage('Build image') {
-    app = docker.build("spring1/spring")
-
+        app = docker.build("spring1/spring")
     }
 
     stage('Test image') {
-
-    app.inside {
-        sh 'echo "Tests passed"'
-
+        app.inside {
+            sh 'echo "Tests passed"'
         }
     }
 
@@ -26,4 +22,3 @@ node {
         }
     }
 }
-
